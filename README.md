@@ -1,6 +1,8 @@
 Name
 ====
 
+Upsync，微博开源基于Nginx容器动态流量管理方案 。Nginx 以其超高的性能与稳定性，在业界获得了广泛的使用，微博的七层就大量使用了 Nginx 。结合 Nginx 的健康检查模块，以及动态 reload 机制，可以近乎无损的服务的升级上线与扩容。这个时候扩容的频次比较低，大多数情况下是有计划的扩容。Upsync，开发了模块 nginx-upsync-module，它的功能是拉取 consul 的后端 server 的列表，并更新 Nginx 的路由信息。此模块不依赖于任何第三方模块。consul 作为 Nginx 的 db，利用 consul 的 KV 服务，每个 Nginx work 进程独立的去拉取各个 upstream 的配置，并更新各自的路由。
+
 Upsync是新浪微博开源的基于Nginx实现动态配置的三方模块。Nginx-Upsync-Module的功能是拉取Consul的后端server的列表，并动态更新Nginx的路由信息。此模块不依赖于任何第三方模块。Consul作为Nginx的DB，利用Consul的KV服务，每个Nginx Work进程独立的去拉取各个upstream的配置，并更新各自的路由。
 
  Nginx Upstream配置动态更新已经有很多开源方案，大多数都是基于生成配置文件后进行reload(本博客中也有介绍)，但是reload这个操作在业务流量不大的时候是可以进行的，但是在一些高流量的站点，随便进行reload会对整个集群的性能造成抖动，这个抖动问题，要追究起来可大可小，不过总有人希望有个完美的方案来避免这个抖动，weibo的nginx-upsync-module模块就是为解决这个问题而生的。
