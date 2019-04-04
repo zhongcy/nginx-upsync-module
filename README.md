@@ -1,6 +1,11 @@
 Name
 ====
 
+Upsync是新浪微博开源的基于Nginx实现动态配置的三方模块。Nginx-Upsync-Module的功能是拉取Consul的后端server的列表，并动态更新Nginx的路由信息。此模块不依赖于任何第三方模块。Consul作为Nginx的DB，利用Consul的KV服务，每个Nginx Work进程独立的去拉取各个upstream的配置，并更新各自的路由。
+
+ Nginx Upstream配置动态更新已经有很多开源方案，大多数都是基于生成配置文件后进行reload(本博客中也有介绍)，但是reload这个操作在业务流量不大的时候是可以进行的，但是在一些高流量的站点，随便进行reload会对整个集群的性能造成抖动，这个抖动问题，要追究起来可大可小，不过总有人希望有个完美的方案来避免这个抖动，weibo的nginx-upsync-module模块就是为解决这个问题而生的。
+
+
 nginx-upsync-module - Nginx C module, sync upstreams from consul or others, dynamically modify backend-servers attribute(weight, max_fails,...), needn't reload nginx.
 
 It may not always be convenient to modify configuration files and restart NGINX. For example, if you are experiencing large amounts of traffic and high load, restarting NGINX and reloading the configuration at that point further increases load on the system and can temporarily degrade performance.
